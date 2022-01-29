@@ -170,20 +170,20 @@ tar -xzf $APK_TOOLS
 echo "==> Adding alpine-devel@lists.alpinelinux.org keys"
 mkdir -p $INSTALL_DIR/etc/apk/keys
 
-alpinekeys=( 4a6a0840 4d07755e 5243ef4b 524d27bb 5261cecb )
+alpinekeys=( 4a6a0840 4d07755e 5243ef4b 524d27bb 5261cecb 58199dcc 58cbb476 58e4f17d 60ac2099 )
 
 for key in "${alpinekeys[@]}"; do
 	curl -sSo $INSTALL_DIR/etc/apk/keys/alpine-devel@lists.alpinelinux.org-$key.rsa.pub https://alpinelinux.org/keys/alpine-devel%40lists.alpinelinux.org-$key.rsa.pub
 done
 
 echo "===> Installing Alpine base"
-./sbin/apk.static -X $MIRROR/v$RELEASE/main -U --root $INSTALL_DIR --initdb add alpine-base
+./sbin/apk.static -X $MIRROR/v$RELEASE/main -U --root $INSTALL_DIR --allow-untrusted --initdb add alpine-base
 
 cd ..
 
 echo "==> Setting up resolv.conf"
-echo "nameserver 8.8.8.8" > $INSTALL_DIR/etc/resolv.conf
-echo "nameserver 8.8.4.4" >> $INSTALL_DIR/etc/resolv.conf
+echo "nameserver 9.9.9.9" > $INSTALL_DIR/etc/resolv.conf
+echo "nameserver 149.112.112.112" >> $INSTALL_DIR/etc/resolv.conf
 
 echo "==> Setting up apk repositories using $MIRROR"
 mkdir -p $INSTALL_DIR/etc/apk
@@ -204,7 +204,7 @@ chroot $INSTALL_DIR apk del --purge tzdata
 
 echo "==> Installing packages..."
 chroot $INSTALL_DIR apk update
-chroot $INSTALL_DIR apk add --update bash curl gettext less man ncurses-terminfo openssh vim wget
+chroot $INSTALL_DIR apk add --update bash curl gettext less man-pages ncurses-terminfo openssh vim wget
 
 echo "==> Removing Linux kernel packages"
 #chroot $INSTALL_DIR apk del --purge linux-grsec
