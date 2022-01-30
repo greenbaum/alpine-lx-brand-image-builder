@@ -248,6 +248,12 @@ cd $INSTALL_DIR/sbin/
 ln -s ../bin/busybox init
 popd
 
+echo "==> Fix references to old /sbin/runscript with symlink to /sbin/openrc-run"
+pushd $PWD
+cd $INSTALL_DIR/sbin/
+ln -s /sbin/openrc-run runscript
+popd
+
 #echo "==> Making /usr/bin/su symlink relative"
 #rm $INSTALL_DIR/usr/bin/su
 #pushd $PWD
